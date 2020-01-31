@@ -1,3 +1,4 @@
+import 'package:cupu/handlers/auth_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -73,9 +74,24 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   color: Colors.lightBlue,
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState.validate()) {
-                      print("Email: $email \nPassword: $password");
+                      final AuthHandler _auth = AuthHandler(
+                        email: email,
+                        password: password
+                      );
+
+                      final Map<String, dynamic> status = await _auth.signIn();
+
+                      if (status["isvalid"]) {
+                        print(status["data"].email);
+                      } else {
+                        Scaffold.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(status["data"]),
+                          )
+                        );
+                      }
                     }
                   },
                 ),
