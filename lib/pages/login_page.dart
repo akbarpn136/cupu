@@ -1,8 +1,10 @@
-import 'package:cupu/handlers/auth_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:states_rebuilder/states_rebuilder.dart';
 
 import '../components/ti_component.dart';
+import 'package:cupu/stores/user_store.dart';
+import 'package:cupu/handlers/auth_handler.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -82,9 +84,10 @@ class _LoginPageState extends State<LoginPage> {
                       );
 
                       final Map<String, dynamic> status = await _auth.signIn();
+                      final ReactiveModel<UserStore> _userStore = Injector.getAsReactive<UserStore>(context: context);
 
                       if (status["isvalid"]) {
-                        print(status["data"].email);
+                        _userStore.setState((state) => state.setLogStatus(true));
                       } else {
                         Scaffold.of(context).showSnackBar(
                           SnackBar(
