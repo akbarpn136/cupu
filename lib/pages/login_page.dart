@@ -18,6 +18,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final ReactiveModel<UserStore> _userStore = Injector.getAsReactive<UserStore>(context: context);
+
     return Container(
       child: Form(
         key: _formKey,
@@ -84,7 +86,6 @@ class _LoginPageState extends State<LoginPage> {
                       );
 
                       final Map<String, dynamic> status = await _auth.signIn();
-                      final ReactiveModel<UserStore> _userStore = Injector.getAsReactive<UserStore>(context: context);
 
                       if (status["isvalid"]) {
                         _userStore.setState((state) => state.setLogStatus(true));
@@ -105,7 +106,9 @@ class _LoginPageState extends State<LoginPage> {
                       color: Colors.black45
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    _userStore.setState((state) => state.setRegisterStatus(true));
+                  },
                 ),
               ],
             )
