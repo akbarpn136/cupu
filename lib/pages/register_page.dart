@@ -94,7 +94,14 @@ class _RegisterPageState extends State<RegisterPage> {
             Row(
               children: <Widget>[
                 RaisedButton(
-                  child: Text("DAFTAR"),
+                  child: Text(
+                    "DAFTAR",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  color: Colors.lightBlue,
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       print("VALID");
@@ -106,8 +113,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(
                   width: 15.0,
                 ),
-                RaisedButton(
-                  child: Text("BATAL"),
+                FlatButton(
+                  child: Text(
+                    "BATAL",
+                    style: TextStyle(color: Colors.red,),
+                  ),
                   onPressed: () {
                     _userStore.setState((state) => state.setRegisterStatus(false));
                   },
