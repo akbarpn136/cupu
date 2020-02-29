@@ -1,3 +1,4 @@
+import 'package:cupu/handlers/auth_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
@@ -103,11 +104,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   color: Colors.lightBlue,
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      print("VALID");
-                    } else {
-                      print("INVALID");
-                    }
+                    doRegister(_userStore);
                   }
                 ),
                 SizedBox(
@@ -128,5 +125,27 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
     );
+  }
+
+  void doRegister(ReactiveModel<UserStore> _userStore) async {
+    if (_formKey.currentState.validate()) {
+      final AuthHandler _auth = AuthHandler(
+        email: email,
+        password: password
+      );
+
+      final Map<String, dynamic> status = await _auth.register();
+
+      if (status["isvalid"]) {
+        _userStore.setState((state) => state.setRegisterStatus(false));
+        _userStore.setState((state) => state.setLogStatus(true));
+      } else {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text(status["data"]),
+          )
+        );
+      }
+    }
   }
 }
