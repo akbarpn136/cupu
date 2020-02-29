@@ -29,6 +29,27 @@ class AuthHandler {
     }
   }
 
+  Future<Map<String, dynamic>> register() async {
+    try {
+      final AuthResult res = await _auth.createUserWithEmailAndPassword(
+        email: email, 
+        password: password
+      );
+
+      await res.user.sendEmailVerification();
+
+      return {
+        "isvalid": true,
+        "data": res.user,
+      };
+    } catch (err) {
+      return {
+        "isvalid": false,
+        "data": err.message,
+      };
+    }
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
   }
