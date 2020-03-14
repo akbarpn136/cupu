@@ -13,7 +13,7 @@ class StatusLayout extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: Text("data"),
+          child: Text(message),
         ),
       ),
     );
